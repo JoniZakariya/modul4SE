@@ -25,7 +25,7 @@ void setup (void) {
 ISR (SPI_STC_vect) //dipanggil ketika ada interrupt dari SPI
 {
   val = SPDR; //SPI Data Register
-  SPDR = val; //manyimpan nilai darable val
+  SPDR = val; //manyimpan nilai dari variable val
 }
 
 void loop (void) {
