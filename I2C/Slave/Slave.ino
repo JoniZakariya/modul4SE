@@ -10,7 +10,7 @@
 
 int leds[NUM_LEDS] = {L1, L2, L3, L4};
 
-int data = 0;
+volatile int data = 0;
 
 /*== fungsi baca data yg diperoleh dari master ===*/
 void receive(int wiresize) {
