@@ -17,15 +17,15 @@ void setup (void) {
     pinMode(leds[z], OUTPUT);
   }
   pinMode(MISO, OUTPUT); //output untk mengirim data dari slave to master
-  SPCR |= _BV(SPE); //mengaktifkan arduino sebagai mode slave
-  SPI.attachInterrupt(); //mengaktifkan interrupt
+  SPCR |= 0b0000001 << 6; //SPI activated
+  SPI.attachInterrupt(); //interrupt activated
   Serial.println("welcome to module 4");
   Serial.println("device SLave");
 }
 ISR (SPI_STC_vect) //dipanggil ketika ada interrupt dari SPI
 {
-  val = SPDR; //meniympan nilai dari register slave (1byte)
-  SPDR = val; //reguster slave mangambil nilai dari variable val
+  val = SPDR; //SPI Data Register
+  SPDR = val; //manyimpan nilai darable val
 }
 
 void loop (void) {
