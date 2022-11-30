@@ -38,21 +38,19 @@ void setup() {
 void loop () {
   Serial.println("data dari master = " + String(data));
   if (data > 0 && data <= NUM_LEDS) {
-    uint8_t bin[4] = {0b0001, 0b0010, 0b0100, 0b1000};
+    uint8_t bin[NUM_LEDS] = {0b0001, 0b0010, 0b0100, 0b1000};
     --data;
     // ============== KONDISI LED ===============
-    for (uint8_t j = 0; j < 4; j++) {
-      uint8_t val = bin[j] >> data;
-      Serial.print("LED" + String(j + 1) + " = ");
-      Serial.print(val & 1);
-      Serial.print(" \t");
-      digitalWrite(leds[j], val & 1);
+    for(uint8_t j = 0; j < NUM_LEDS; j++){
+      uint8_t val = (bin[j] >> data) & 1;
+      Serial.print("LED" + String(j+1)+ " = " + String(val) + " \t");
+      digitalWrite(leds[j], val); 
     }
     Serial.println();
   }
   else {
-    for (uint8_t x = 0; x < NUM_LEDS; x++) {
-      digitalWrite(leds[x], 0);
+    for (uint8_t j = 0; j < NUM_LEDS; j++) {
+      digitalWrite(leds[j], 0);
     }
     Serial.println("data tidak sesuai");
   }
