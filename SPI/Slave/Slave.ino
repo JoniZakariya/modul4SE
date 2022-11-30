@@ -9,12 +9,12 @@
 
 int leds[NUM_LEDS] = {L1, L2, L3, L4};
 
-volatile uint8_t val = 0; //variable ini disimpan di ram
+volatile uint8_t data = 0; //variable ini disimpan di RAM
 
 void setup (void) {
   Serial.begin (9600);
-  for (int z = 0; z < 4; z++) {
-    pinMode(leds[z], OUTPUT);
+  for (uint8_t indx = 0; indx < NUM_LEDS; indx++) {
+    pinMode(leds[indx], OUTPUT);
   }
   pinMode(MISO, OUTPUT); //output untk mengirim data dari slave to master
   SPCR |= 0b0000001 << 6; //SPI activated
@@ -22,34 +22,30 @@ void setup (void) {
   Serial.println("welcome to module 4");
   Serial.println("device SLave");
 }
-ISR (SPI_STC_vect) //dipanggil ketika ada interrupt dari SPI
+ISR (SPI_STC_vect) //(Interrupt Service Routine) dipanggil ketika ada interrupt dari SPI
 {
-  val = SPDR; //SPI Data Register
-  SPDR = val; //manyimpan nilai dari variable val
+  data = SPDR; //SPI Data Register
+  SPDR = data;
 }
 
 void loop (void) {
   Serial.print("data Input = ");
-  Serial.println(val);
+  Serial.println(data);
 
-  if (val > 0 && val <= NUM_LEDS) {
-    Serial.print("LED1 = ");
-    Serial.print((0x01 >> (val - 1)) & 1);
-    Serial.print("\t LED2 = ");
-    Serial.print((0x02 >> (val - 1)) & 1);
-    Serial.print("\t LED3 = ");
-    Serial.print((0x04 >> (val - 1)) & 1);
-    Serial.print("\t LED4 = ");
-    Serial.println((0x08 >> (val - 1)) & 1);
+  if (data > 0 && data <= NUM_LEDS) {
+    uint8_t bin[NUM_LEDS] = {0b0001, 0b0010, 0b0100, 0b1000};
+    --data;
     // ============== KONDISI LED ===============
-    digitalWrite(leds[0], (0x01 >> (val - 1)) & 1);
-    digitalWrite(leds[1], (0x02 >> (val - 1)) & 1);
-    digitalWrite(leds[2], (0x04 >> (val - 1)) & 1);
-    digitalWrite(leds[3], (0x08 >> (val - 1)) & 1);
+    for (uint8_t j = 0; j < NUM_LEDS; j++) {
+      uint8_t val = (bin[j] >> data) & 1;
+      Serial.print("LED" + String(j + 1) + " = " + String(val) + " \t");
+      digitalWrite(leds[j], val);
+    }
+    Serial.println();
   }
   else {
-    for (int x = 0; x < NUM_LEDS; x++) {
-      digitalWrite(leds[x], LOW);
+    for (uint8_t j = 0; j < NUM_LEDS; j++) {
+      digitalWrite(leds[j], LOW);
     }
     Serial.println("data tidak sesuai");
   }
