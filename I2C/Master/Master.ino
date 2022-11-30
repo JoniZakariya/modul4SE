@@ -23,7 +23,7 @@ void loop () {
   Wire.endTransmission(); //mengakhiri transmisi dengan mengirim address dan data
 
   //====request data from slave=====
-  Wire.requestFrom(SLAVE_ADDR/*alamat tujuan*/, 1/*request berapa byte*/);// melakukan request data from slave
+  Wire.requestFrom(SLAVE_ADDR/*alamat tujuan*/, 1/*request 1 byte*/);// melakukan request data from slave
   if (Wire.available()) { // jumlah byte data yang diterima
     int dataFromSlave = Wire.read(); // membaca data dalam 1 byte
     Serial.println("data dari slave = " + String(dataFromSlave));
