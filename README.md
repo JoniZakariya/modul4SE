@@ -1,4 +1,4 @@
-# Hello guys!!! Welcome to modul 4
+# Hello myFriends!!!
 <b>UART</b>
 ![Exquisite Bigery (3)](https://user-images.githubusercontent.com/118113279/204143985-3ab30856-79d1-461c-adc3-e215e007ae68.png)
 <b>I2C</b>
