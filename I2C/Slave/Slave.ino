@@ -25,8 +25,8 @@ void request() {
 
 void setup() {
   Serial.begin(9600);
-  for (int p = 0; p < NUM_LEDS; p++) {
-    pinMode(leds[p], OUTPUT);
+  for (uint8_t indx = 0; indx < NUM_LEDS; indx++) {
+    pinMode(leds[indx], OUTPUT);
   }
   Wire.begin(SLAVE_ADDR); // memulai device(arduino) sebagai slave
   Serial.println("welcome to module 4");
@@ -49,8 +49,8 @@ void loop () {
     Serial.println();
   }
   else {
-    for (uint8_t x = 0; x < NUM_LEDS; x++) {
-      digitalWrite(leds[x], 0);
+    for (uint8_t j = 0; j < NUM_LEDS; j++) {
+      digitalWrite(leds[j], 0);
     }
     Serial.println("data tidak sesuai");
   }
