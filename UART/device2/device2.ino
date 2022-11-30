@@ -10,7 +10,6 @@
 #define L3 6 //pin arduino
 #define L4 7 //pin arduino
 #define NUM_LEDS 4 //jumlah led
-
 #define MATI 0
 
 //=========== member class ===========
@@ -25,8 +24,8 @@ bool state = false;
 void setup() {
   SerialExternal.begin(9600); // Mengatur kecepatan data dalam bit per detik (baud rate)
   Serial.begin(9600);
-  for (int jn = 0; jn < 4; jn++) {
-    pinMode(leds[jn], OUTPUT);
+  for (uint8_t indx = 0; indx < NUM_LEDS; indx++) {
+    pinMode(leds[indx], OUTPUT);
   }
   Serial.println("Welcome to module 4");
   Serial.println("device2 is running");
@@ -39,19 +38,15 @@ void loop() {
 
   Serial.println("data dari device1 = " + String(data));
   if (data > 0 && data <= NUM_LEDS) {
-    Serial.print("LED1 = ");
-    Serial.print((0x01 >> (data - 1)) & 1);
-    Serial.print("\t LED2 = ");
-    Serial.print((0x02 >> (data - 1)) & 1);
-    Serial.print("\t LED3 = ");
-    Serial.print((0x04 >> (data - 1)) & 1);
-    Serial.print("\t LED4 = ");
-    Serial.println((0x08 >> (data - 1)) & 1);
+    uint8_t bin[NUM_LEDS] = {0b0001, 0b0010, 0b0100, 0b1000};
+    --data;
     // ============== KONDISI LED ===============
-    digitalWrite(leds[0], (0x01 >> (data - 1)) & 1);
-    digitalWrite(leds[1], (0x02 >> (data - 1)) & 1);
-    digitalWrite(leds[2], (0x04 >> (data - 1)) & 1);
-    digitalWrite(leds[3], (0x08 >> (data - 1)) & 1);
+    for (uint8_t j = 0; j < NUM_LEDS; j++) {
+      uint8_t val = (bin[j] >> data) & 1;
+      Serial.print("LED" + String(j + 1) + " = " + String(val) + " \t");
+      digitalWrite(leds[j], val);
+    }
+    Serial.println();
   }
   else {
     for (int z = 0; z < NUM_LEDS; z++) {
