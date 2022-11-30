@@ -25,8 +25,8 @@ void request() {
 
 void setup() {
   Serial.begin(9600);
-  for (int x = 0; x < 4; x++) {
-    pinMode(leds[x], OUTPUT);
+  for (int indx = 0; indx < NUM_LEDS; indx++) {
+    pinMode(leds[indx], OUTPUT);
   }
   Wire.begin(SLAVE_ADDR); // memulai device(arduino) sebagai slave
   Serial.println("welcome to module 4");
@@ -38,23 +38,21 @@ void setup() {
 void loop () {
   Serial.println("data dari master = " + String(data));
   if (data > 0 && data <= NUM_LEDS) {
-    Serial.print("LED1 = ");
-    Serial.print((0x01 >> (data - 1)) & 1);
-    Serial.print("\t LED2 = ");
-    Serial.print((0x02 >> (data - 1)) & 1);
-    Serial.print("\t LED3 = ");
-    Serial.print((0x04 >> (data - 1)) & 1);
-    Serial.print("\t LED4 = ");
-    Serial.println((0x08 >> (data - 1)) & 1);
+    uint8_t bin[4] = {0b0001, 0b0010, 0b0100, 0b1000};
+    --data;
     // ============== KONDISI LED ===============
-    digitalWrite(leds[0], (0x01 >> (data - 1)) & 1);
-    digitalWrite(leds[1], (0x02 >> (data - 1)) & 1);
-    digitalWrite(leds[2], (0x04 >> (data - 1)) & 1);
-    digitalWrite(leds[3], (0x08 >> (data - 1)) & 1);
+    for (uint8_t j = 0; j < 4; j++) {
+      uint8_t val = bin[j] >> data;
+      Serial.print("LED" + String(j + 1) + " = ");
+      Serial.print(val & 1);
+      Serial.print(" \t");
+      digitalWrite(leds[j], val & 1);
+    }
+    Serial.println();
   }
   else {
-    for (int x = 0; x < NUM_LEDS; x++) {
-      digitalWrite(leds[x], LOW);
+    for (uint8_t x = 0; x < NUM_LEDS; x++) {
+      digitalWrite(leds[x], 0);
     }
     Serial.println("data tidak sesuai");
   }
