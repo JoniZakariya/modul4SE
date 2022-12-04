@@ -35,7 +35,6 @@ void loop() {
     data = SerialExternal.read(); // membaca data yang masuk dari device1(max 1 byte)
     state = true;
   }
-
   Serial.println("data dari device1 = " + String(data));
   if (data > 0 && data <= NUM_LEDS) {
     uint8_t bin[NUM_LEDS] = {0b0001, 0b0010, 0b0100, 0b1000};
@@ -54,7 +53,6 @@ void loop() {
     }
     Serial.println("data tidak sesuai");
   }
-
   if (state) {
     state = false;
     SerialExternal.write(data); //kirim data(max 1 byte)
