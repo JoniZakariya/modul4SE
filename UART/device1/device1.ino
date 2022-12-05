@@ -18,11 +18,13 @@ void setup() {
 }
 
 void loop() {
+   //mengambil data dari Serial monitor
   if (Serial.available()) {
     data = Serial.read(); // baca data (max 1 byte)
     data -= 48;//lihat kode ascii, tentang karakter dan desimal
     state1 = 1;
   }
+   
   if (state1) {
     SerialExternal.write(data); // kirim data(max 1 byte)
     state1 = 0;
