@@ -47,6 +47,7 @@ void loop () {
       digitalWrite(leds[j], val);
     }
     Serial.println();
+    data++;
   }
   else {
     for (uint8_t j = 0; j < NUM_LEDS; j++) {
