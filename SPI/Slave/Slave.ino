@@ -48,7 +48,7 @@ void loop (void) {
     for (uint8_t j = 0; j < NUM_LEDS; j++) {
       digitalWrite(leds[j], LOW);
     }
-    Serial.println("data tidak sesuai");
+    Serial.println("all leds off");
   }
   delay(250);
 }
