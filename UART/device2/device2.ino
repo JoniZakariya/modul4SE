@@ -52,7 +52,7 @@ void loop() {
     for (int z = 0; z < NUM_LEDS; z++) {
       digitalWrite(leds[z], MATI);
     }
-    Serial.println("data tidak sesuai");
+    Serial.println("all leds off");
   }
   if (state) {
     state = false;
